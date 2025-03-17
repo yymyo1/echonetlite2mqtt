@@ -13,10 +13,9 @@ jobs:
     - name: Determine arch
       id: determine_arch
       run: |
-        ARCH_LIST=$(yq --unwrapScalar '.arch' ./ha_addon/repos/config.yaml)
+        ARCH_LIST=$(yq -j '.arch' ./ha_addon/repos/config.yaml | jq -c -r)
         echo "Found the following arches: $ARCH_LIST"
         echo "ARCH_LIST=$ARCH_LIST" >> $GITHUB_ENV
-        cat $GITHUB_ENV
 
   build:
     runs-on: ubuntu-latest
