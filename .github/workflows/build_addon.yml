@@ -1,6 +1,6 @@
 name: Build and Publish HA Addon
 
-on:
+on: [ workflow_dispatch ]
 
 jobs:
   variables:
