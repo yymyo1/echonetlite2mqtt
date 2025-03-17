@@ -1,0 +1,28 @@
+name: Build and Publish HA Addon
+
+on:
+
+jobs:
+  variables:
+    runs-on: ubuntu-latest
+    outputs:
+      ARCH_LIST: ${{ env.ARCH_LIST }}
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Determine arch
+      id: determine_arch
+      run: |
+        ARCH_LIST=$(yq --unwrapScalar '.arch' ./ha_addon/repos/config.yaml)
+        echo "Found the following arches: $ARCH_LIST"
+        echo "ARCH_LIST=$ARCH_LIST" >> $GITHUB_ENV
+        cat $GITHUB_ENV
+
+  build:
+    runs-on: ubuntu-latest
+    needs: variables
+    steps:
+    - uses: actions/checkout@v3
+    - name: test
+      run: |
+        echo ${{fromJSON(needs.variables.outputs.ARCH_LIST)}}
