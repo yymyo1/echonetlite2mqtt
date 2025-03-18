@@ -2,13 +2,12 @@ ARG BUILD_FROM
 FROM ${BUILD_FROM} AS build
 
 WORKDIR /app
-COPY /build.yaml ./
-COPY /package.json ./
-COPY /package-lock.json ./
+COPY ./src/package.json ./
+COPY ./src/package-lock.json ./
 RUN npm ci
 
 WORKDIR /app
-COPY /* .
+COPY ./src .
 RUN npm run build
 
 
@@ -18,8 +17,8 @@ FROM ${BUILD_FROM} AS runtime
 RUN mkdir -p /app/.ts-node && chown -R node:node /app
 WORKDIR /app
 
-COPY /package.json ./
-COPY /package-lock.json ./
+COPY ./src/package.json ./
+COPY ./src/package-lock.json ./
 #USER node
 
 RUN npm ci --omit-dev
