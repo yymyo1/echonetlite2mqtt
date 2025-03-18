@@ -6,7 +6,7 @@ COPY /data/package*.json ./
 RUN npm ci
 
 WORKDIR /app
-COPY /data .
+COPY /data/* .
 RUN npm run build
 
 
