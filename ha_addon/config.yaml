@@ -2,6 +2,10 @@ name: "ECHONETLite2MQTT"
 description: "ECHONET Lite to MQTT bridge."
 version: "0.0.1"
 slug: "echonetlite2mqtt"
+arch:
+  - armv7
+  - aarch64
+  - amd64
 init: false
 host_network: true
 services:
