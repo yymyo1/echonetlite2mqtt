@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Copy files
         run: |
-          cp -r . ha_addon/src
+          rsync -a . /ha_addon/src/ --exclude '/ha_addon/'
       - name: Test build
         uses: home-assistant/builder@master
         with:
