@@ -2,6 +2,7 @@ ARG BUILD_FROM
 FROM ${BUILD_FROM} AS build
 
 WORKDIR /app
+COPY /build.yaml ./
 COPY /package.json ./
 COPY /package-lock.json ./
 RUN npm ci
