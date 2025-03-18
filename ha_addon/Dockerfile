@@ -2,11 +2,11 @@ ARG BUILD_FROM
 FROM ${BUILD_FROM} AS build
 
 WORKDIR /app
-COPY /data/package*.json ./
+COPY /package*.json ./
 RUN npm ci
 
 WORKDIR /app
-COPY /data/* .
+COPY /* .
 RUN npm run build
 
 
@@ -16,7 +16,7 @@ FROM ${BUILD_FROM} AS runtime
 RUN mkdir -p /app/.ts-node && chown -R node:node /app
 WORKDIR /app
 
-COPY /data/package*.json ./
+COPY /package*.json ./
 #USER node
 
 RUN npm ci --omit-dev
