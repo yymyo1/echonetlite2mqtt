@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
+      - name: List Files
+        run: |
+          pwd
+          ls        
       - name: Test build
         uses: home-assistant/builder@master
         with:
@@ -20,3 +24,4 @@ jobs:
             --test \
             --addon \
             --${{ matrix.arch }} \
+            --target /data/ha_addon \
