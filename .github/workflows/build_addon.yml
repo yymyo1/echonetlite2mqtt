@@ -20,4 +20,3 @@ jobs:
             --test \
             --addon \
             --${{ matrix.arch }} \
-            --target /data/ha_addon \
