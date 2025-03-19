@@ -18,7 +18,7 @@ RUN npm run build
 FROM base AS runtime
 
 # RUN apk --no-cache -U upgrade
-RUN mkdir -p /app/.ts-node && chown -R node:node /app
+RUN mkdir -p /app/.ts-node
 WORKDIR /app
 
 COPY ./src/package*json ./
