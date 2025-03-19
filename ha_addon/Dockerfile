@@ -1,5 +1,10 @@
 ARG BUILD_FROM
-FROM ${BUILD_FROM} AS build
+FROM ${BUILD_FROM} AS base
+
+RUN apk add --no-cache nodejs npm
+
+
+FROM base as build
 
 WORKDIR /app
 COPY ./src/package*.json ./
@@ -10,7 +15,7 @@ COPY ./src .
 RUN npm run build
 
 
-FROM ${BUILD_FROM} AS runtime
+FROM base AS runtime
 
 # RUN apk --no-cache -U upgrade
 RUN mkdir -p /app/.ts-node && chown -R node:node /app
