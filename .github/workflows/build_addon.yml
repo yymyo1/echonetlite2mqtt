@@ -20,7 +20,9 @@ jobs:
         run: |
           rsync -a . ./ha_addon/src/ --exclude './ha_addon/'
           app_version=$(cat ./ha_addon/src/package.json | jq -r '.version')
+          echo app_version=${app_version}
           sed -i -e "s/_____APP_VERSION_____/${version}/" ./ha_addon/config.yaml
+          grep version ./ha_addon/config.yaml 
       - name: Publish
         uses: home-assistant/builder@master
         with:
