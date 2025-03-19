@@ -3,7 +3,6 @@ description: "ECHONET Lite to MQTT bridge."
 version: "0.0.1"
 slug: "echonetlite2mqtt"
 arch:
-  - armv7
   - aarch64
   - amd64
 image: ghcr.io/yymyo1/echonetlite2mqtt-addon
