@@ -26,4 +26,5 @@ jobs:
             --all \
             --addon \
             --docker-hub ghcr.io/${{ github.actor }} \
+            --image echonetlite2mqtt-addon/{arch} \
             --target /data/ha_addon \
