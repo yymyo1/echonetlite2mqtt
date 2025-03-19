@@ -16,11 +16,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Copy files
+      - name: Copy files and modify version
+        id: version
         run: |
           rsync -a . ./ha_addon/src/ --exclude './ha_addon/'
           app_version=$(cat ./ha_addon/src/package.json | jq -r '.version')
           sed -i -e "s/_____APP_VERSION_____/${app_version}/" ./ha_addon/config.yaml
+          echo "app_version=${app_version}" >> "$GITHUB_OUTPUT" 
       - name: Publish
         uses: home-assistant/builder@master
         with:
@@ -30,3 +32,10 @@ jobs:
             --docker-hub ghcr.io/${{ github.actor }} \
             --image echonetlite2mqtt-addon/{arch} \
             --target /data/ha_addon \
+      - name: Dispatch Addon Repository
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: "${{ github.actor }}/home-assistant-addons"
+          event-type: release-echonetlite2mqtt-addon
+          client-payload: '{ "version": "${{steps.version.outputs.app_version}}" }'
