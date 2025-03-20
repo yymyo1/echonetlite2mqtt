@@ -9,7 +9,6 @@ jobs:
     permissions:
       contents: write
       packages: write
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
@@ -61,7 +60,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           cp ../ha_addon/config.yaml echonetlite2mqtt/config.yaml
-          cat echonetlite2mqtt/config.yaml
           git add echonetlite2mqtt/config.yaml
           git commit -m "commit for ${{steps.version.outputs.app_version}}"
           git push origin main
