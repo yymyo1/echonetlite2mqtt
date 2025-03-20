@@ -53,19 +53,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ steps.gentoken.outputs.token }}
-          #persist-credentials: false
           repository: ${{ github.actor }}/home-assistant-addons
           path: addon_repos
       - name: update config.yaml at the HA addon repo
         working-directory: addon_repos
-        env:
-            GITHUB_TOKEN: ${{ steps.gentoken.outputs.token }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git log
-          ls -l
-          ls -l echonetlite2mqtt
           cp ../ha_addon/config.yaml echonetlite2mqtt/config.yaml
           cat echonetlite2mqtt/config.yaml
           git add echonetlite2mqtt/config.yaml
