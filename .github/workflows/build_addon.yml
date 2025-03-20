@@ -27,19 +27,39 @@ jobs:
           app_version=$(cat ./ha_addon/src/package.json | jq -r '.version')
           sed -i -e "s/_____APP_VERSION_____/${app_version}/" ./ha_addon/config.yaml
           echo "app_version=${app_version}" >> "$GITHUB_OUTPUT" 
-      - name: Publish
-        uses: home-assistant/builder@master
+#      - name: Publish
+#        uses: home-assistant/builder@master
+#        with:
+#          args: |
+#            --all \
+#            --addon \
+#            --docker-hub ghcr.io/${{ github.actor }} \
+#            --image echonetlite2mqtt-addon/{arch} \
+#            --target /data/ha_addon \
+#      - name: Dispatch Addon Repository
+#        uses: peter-evans/repository-dispatch@v3
+#        with:
+#          token: ${{ secrets.ADDON_REPOSITORY_PAT }}
+#          repository: "${{ github.actor }}/home-assistant-addons"
+#          event-type: release-echonetlite2mqtt-addon
+#          client-payload: '{ "version": "${{steps.version.outputs.app_version}}" }'
+      - name: Generate GitHub Apps token
+        id: gentoken
+        uses: tibdex/github-app-token@v1
         with:
-          args: |
-            --all \
-            --addon \
-            --docker-hub ghcr.io/${{ github.actor }} \
-            --image echonetlite2mqtt-addon/{arch} \
-            --target /data/ha_addon \
-      - name: Dispatch Addon Repository
-        uses: peter-evans/repository-dispatch@v3
+            app_id: ${{ secrets.HA_ADDON_APP_ID }}
+            private_key: ${{ secrets.HA_ADDON_PRIVATE_KEY }}
+      - name: Checkout another repo
+        uses: actions/checkout@v3
         with:
-          token: ${{ secrets.ADDON_REPOSITORY_PAT }}
-          repository: "${{ github.actor }}/home-assistant-addons"
-          event-type: release-echonetlite2mqtt-addon
-          client-payload: '{ "version": "${{steps.version.outputs.app_version}}" }'
+          repository: ${{ github.actor }}/home-assistant-addons
+          path: addon_repos
+      - name: update config.yaml at the HA addon repo
+        working-directory: addon_repos
+        env:
+            GITHUB_TOKEN: ${{ steps.gentoken.outputs.token }}
+        run: |
+          cp ./ha_addon/config.yaml echonetlite2mqtt/config.yaml
+          git add echonetlite2mqtt/config.yaml
+          git commit -m "commit for ${{steps.version.outputs.app_version}}"
+          git push origin main
