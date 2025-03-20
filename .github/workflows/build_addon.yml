@@ -59,7 +59,7 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ steps.gentoken.outputs.token }}
         run: |
-          cp ./ha_addon/config.yaml echonetlite2mqtt/config.yaml
+          cp ../ha_addon/config.yaml echonetlite2mqtt/config.yaml
           git add echonetlite2mqtt/config.yaml
           git commit -m "commit for ${{steps.version.outputs.app_version}}"
           git push origin main
