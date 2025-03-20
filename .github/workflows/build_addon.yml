@@ -35,13 +35,6 @@ jobs:
             --docker-hub ghcr.io/${{ github.actor }} \
             --image echonetlite2mqtt-addon/{arch} \
             --target /data/ha_addon \
-      - name: Dispatch Addon Repository
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.ADDON_REPOSITORY_PAT }}
-          repository: "${{ github.actor }}/home-assistant-addons"
-          event-type: release-echonetlite2mqtt-addon
-          client-payload: '{ "version": "${{steps.version.outputs.app_version}}" }'
       - name: Generate GitHub Apps token
         id: gentoken
         uses: tibdex/github-app-token@v1
