@@ -15,7 +15,6 @@ if bashio::services.available "mqtt"; then
 fi
 
 if (bashio::config.has_value 'MQTT_BROKER'); then
-  bashio::log.info "MQTT_BROKER=$MQTT_BROKER"
   export MQTT_BROKER=$(bashio::config "MQTT_BROKER")
 fi
 if (bashio::config.has_value 'MQTT_OPTION_FILE'); then
@@ -34,7 +33,6 @@ if (bashio::config.has_value 'MQTT_BASE_TOPIC'); then
   export MQTT_BASE_TOPIC=$(bashio::config "MQTT_BASE_TOPIC")
 fi
 if (bashio::config.has_value 'MQTT_USERNAME'); then
-  bashio::log.info "MQTT_USRNAME=$MQTT_USERNAME"
   export MQTT_USERNAME=$(bashio::config "MQTT_USERNAME")
 fi
 if (bashio::config.has_value 'MQTT_PASSWORD'); then
